@@ -2,8 +2,8 @@ import pandas as pd
 import os
 
 # merging all the data into a single file
-# df=pd.read_csv('/Users/chenyasi/Documents/PythonPractice/Pandas-Data-Science-Tasks-master/SalesAnalysis/Sales_Data/Sales_April_2019.csv')
-files=[file for file in os.listdir('/Users/chenyasi/Documents/PythonPractice/Pandas-Data-Science-Tasks-master/SalesAnalysis/Sales_Data')]
+# df=pd.read_csv('.../PythonPractice/Pandas-Data-Science-Tasks-master/SalesAnalysis/Sales_Data/Sales_April_2019.csv')
+files=[file for file in os.listdir('.../PythonPractice/Pandas-Data-Science-Tasks-master/SalesAnalysis/Sales_Data')]
 
 all_months_data=pd.DataFrame()
 
