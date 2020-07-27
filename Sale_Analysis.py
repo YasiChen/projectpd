@@ -8,7 +8,7 @@ files=[file for file in os.listdir('.../PythonPractice/Pandas-Data-Science-Tasks
 all_months_data=pd.DataFrame()
 
 for file in files:
-    df=pd.read_csv('/Users/chenyasi/Documents/PythonPractice/Pandas-Data-Science-Tasks-master/SalesAnalysis/Sales_Data/'+file)
+    df=pd.read_csv('.../Documents/PythonPractice/Pandas-Data-Science-Tasks-master/SalesAnalysis/Sales_Data/'+file)
     all_months_data = pd.concat([all_months_data, df])
 
 all_months_data.to_csv("all_data.csv", index=False)
