@@ -64,14 +64,30 @@ def get_city(address):
     return  address.split(',')[1]
 
 
-all_data['City']=all_data['Purchase Address'].apply(lambda x: x.split(',')[1])
 all_data.head()
 all_data['City'].unique()
-# it can also be trouble if two city named the same but actually two places
+
+# it can also be trouble if two city named the same, but actually two places
+all_data['City']=all_data['Purchase Address'].apply(lambda x: x.split(',')[1])
+
 
 # apply lambda x , can apply other functions as well
 all_data['City']=all_data['Purchase Address'].apply(lambda x: get_city(x))
 
+
+# fix the address by state
+def get_state(address):
+    return  address.split(',')[2].split(' ')[1]
+
+# State = all_data['Purchase Address'].apply(lambda x: get_state(x))
+# State
+
+# apply lambda x , can apply other functions as well
+# https://towardsdatascience.com/apply-and-lambda-usage-in-pandas-b13a1ea037f7
+all_data['City']=all_data['Purchase Address'].apply(lambda x: get_city(x)+ ' '+ get_state(x))
+all_data.head()
+all_data['City'].unique()
+# there're actually two Portland
 
 
 city_sales= all_data.groupby('City').sum()
