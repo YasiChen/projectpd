@@ -1,5 +1,5 @@
 # import pandas as pd
-# df =pd.read_csv("/Users/chenyasi/Documents/PythonPractice/pokemon_data.csv")
+# df =pd.read_csv(".../PythonPractice/pokemon_data.csv")
 # print(df)
 
 import pprint
