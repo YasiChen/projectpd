@@ -85,9 +85,32 @@ def get_state(address):
 # apply lambda x , can apply other functions as well
 # https://towardsdatascience.com/apply-and-lambda-usage-in-pandas-b13a1ea037f7
 all_data['City']=all_data['Purchase Address'].apply(lambda x: get_city(x)+ ' '+ get_state(x))
+# or either way is fine, f string
+all_data['City']=all_data['Purchase Address'].apply(lambda x: f"{get_city(x)}({get_state(x)})")
 all_data.head()
 all_data['City'].unique()
 # there're actually two Portland
 
+# summary of city sales
+city_sales=all_data.groupby('City').sum()
+cities=all_data['City'].unique()
+cities
+# notice it's not the same order
+# arrange it in the way it group
+cities=[city for city, df in all_data.groupby('City')]
 
-city_sales= all_data.groupby('City').sum()
+plt.bar(cities, city_sales['Sales'])
+plt.xticks(cities,rotation='vertical', size=5)
+plt.ylabel('Sales in USD')
+plt.xlabel('City')
+plt.show()
+
+# other way, not make the group as index, so the dataframe can serve better
+city_sales=all_data.groupby('City',as_index=False).sum()
+city_sales
+
+plt.bar(city_sales['City'], city_sales['Sales'])
+plt.xticks(city_sales['City'],rotation='vertical', size=5)
+plt.ylabel('Sales in USD')
+plt.xlabel('City')
+plt.show()
