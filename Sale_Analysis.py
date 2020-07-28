@@ -193,3 +193,5 @@ ax2.set_ylabel('Price',color='g')
 ax1.set_xticklabels(Product_price['Product'], rotation='vertical', size=5)
 
 plt.show()
+# bascially products with low price comes with higer quantity
+# promotion on those high price product
