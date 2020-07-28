@@ -1,5 +1,14 @@
 import pandas as pd
 import os
+import numpy as np
+
+desired_width=320
+
+pd.set_option('display.width', desired_width)
+
+np.set_printoptions(linewidth=desired_width)
+
+pd.set_option('display.max_columns',10)
 
 # merging all the data into a single file
 # df=pd.read_csv('.../PythonPractice/Pandas-Data-Science-Tasks-master/SalesAnalysis/Sales_Data/Sales_April_2019.csv')
@@ -113,4 +122,74 @@ plt.bar(city_sales['City'], city_sales['Sales'])
 plt.xticks(city_sales['City'],rotation='vertical', size=5)
 plt.ylabel('Sales in USD')
 plt.xlabel('City')
+plt.show()
+
+
+
+# order date, cal type
+all_data['Order Date']=pd.to_datetime(all_data['Order Date'])
+# hour
+all_data['Hour']=all_data['Order Date'].dt.hour
+all_data['Minute']=all_data['Order Date'].dt.minute
+
+# also look into the buying hour/min
+hour_sales=all_data.groupby('Hour',as_index=False).sum()
+hour_sales
+hoursale_plot = plt.plot(hour_sales['Hour'], hour_sales['Sales'])
+plt.xticks(hour_sales['Hour'])
+plt.xlabel('Hour')
+plt.grid()
+plt.show(hoursale_plot)
+# advertisement time show be 11am/18pm/19pm
+
+
+# product analysis
+# consider the synergy, what sold together
+df= all_data[all_data['Order ID'].duplicated(keep=False)]
+df
+
+df['Grouped']=df.groupby('Order ID')['Product'].transform(lambda x: ','.join(x))
+df=df[['Order ID','Grouped']].drop_duplicates()
+
+
+from itertools import combinations
+from collections import Counter
+
+count= Counter()
+
+for row in df['Grouped']:
+    row_list=row.split(',')
+    count.update(Counter(combinations(row_list,2)))
+
+count.most_common(10)
+
+# for key, value in count.most_common(10):
+#     print(key, value)
+
+
+# what sold the most?
+all_data.head()
+product_group=all_data.groupby('Product')
+quantity_product=all_data.groupby('Product',as_index=False).sum()[['Product','Quantity Ordered']]
+quantity_product
+
+plt.bar(quantity_product['Product'],quantity_product['Quantity Ordered'])
+plt.xticks(quantity_product['Product'],rotation='vertical')
+plt.show()
+
+# something to do with price?
+Product_price=all_data.groupby('Product',as_index=False).mean()[['Product','Price Each']]
+Product_price
+
+fig, ax1=plt.subplots()
+
+ax2=ax1.twinx()
+ax1.bar(quantity_product['Product'],quantity_product['Quantity Ordered'],color='b')
+ax2.plot(Product_price['Product'],Product_price['Price Each'],'g')
+
+ax1.set_xlabel('Product')
+ax1.set_ylabel('Quantity', color='b')
+ax2.set_ylabel('Price',color='g')
+ax1.set_xticklabels(Product_price['Product'], rotation='vertical', size=5)
+
 plt.show()
